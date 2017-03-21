@@ -4,38 +4,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web.Http;
+using System.Xml.Serialization;
 
 namespace ResourcesService.Controllers
 {
+    public class Sample
+    {
+        public string Code { get; set; }
+
+        public string Name { get; set; }
+
+        [XmlArrayItem("Item")]
+        public List<string> Items { get; set; }
+    }
+
     [ApiVersion("1.0")]
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        public IHttpActionResult Get()
         {
-            var accept = Request.Headers.Accept.Single();
+            var sample = new Sample
+            {
+                Code = "sample_code",
+                Name = "sample name",
+                Items = new List<string> { "a", "b", "c", "d" }
+            };
 
-            return new string[] { "value1", "value2" };
+            return Ok(sample);
         }
 
-        // GET api/values/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/values
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/values/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/values/5
         public void Delete(int id)
         {
         }
