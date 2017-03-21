@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Web.Http.Routing;
 using System.Web.Http;
 
 namespace ResourcesService
@@ -9,15 +7,15 @@ namespace ResourcesService
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API 配置和服务
+            config.AddApiVersioning();
 
-            // Web API 路由
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/v{apiVersion}/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: new { apiVersion = new ApiVersionRouteConstraint() }
             );
         }
     }

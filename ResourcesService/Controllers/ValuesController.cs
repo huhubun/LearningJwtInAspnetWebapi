@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Web.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,11 +8,14 @@ using System.Web.Http;
 
 namespace ResourcesService.Controllers
 {
+    [ApiVersion("1.0")]
     public class ValuesController : ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
         {
+            var accept = Request.Headers.Accept.Single();
+
             return new string[] { "value1", "value2" };
         }
 
